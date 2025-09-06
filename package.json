@@ -1,0 +1,26 @@
+{
+  "name": "floppy",
+  "version": "1.0.0",
+  "description": "Proof of Work Browser Verification System",
+  "main": "floppy.js",
+  "scripts": {
+    "build": "node build.js",
+    "dev": "python3 -m http.server 8000"
+  },
+  "keywords": [
+    "proof-of-work",
+    "browser-verification",
+    "security",
+    "ddos-protection"
+  ],
+  "author": "Alessandro",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/alessandromrc/Floppy.git"
+  },
+  "devDependencies": {
+    "terser": "^5.24.0",
+    "html-minifier-terser": "^7.2.0"
+  }
+}
