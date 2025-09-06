@@ -30,8 +30,7 @@ jobs:
         
     - name: Install dependencies
       run: |
-        npm init -y
-        npm install --save-dev terser
+        npm install terser
         
     - name: Create build script
       run: |
