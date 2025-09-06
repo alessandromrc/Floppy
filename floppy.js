@@ -250,7 +250,7 @@ class FloppyProtection {
   }
 }
 
-const floppy = new FloppyProtection({ difficulty: 18 });
+const floppy = new FloppyProtection({ difficulty: 15 });
 document.addEventListener('DOMContentLoaded', () => floppy.run());
 
 window.Floppy = FloppyProtection;
