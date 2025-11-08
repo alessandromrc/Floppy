@@ -11,7 +11,6 @@ class FloppyProtection {
 
     this.overlay = null;
     this.isRunning = false;
-    this.fetchBadUserAgents();
   }
 
   async fetchBadUserAgents() {
@@ -331,9 +330,7 @@ class FloppyProtection {
     const statusEl = this.overlay.querySelector("#floppy-status");
     const spinnerEl = this.overlay.querySelector(".floppy-spinner");
 
-    if (!this.badUserAgents) {
-      await this.fetchBadUserAgents();
-    }
+    await this.fetchBadUserAgents();
 
     const userAgent = navigator.userAgent.toLowerCase();
 
