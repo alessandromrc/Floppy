@@ -38,7 +38,7 @@ class FloppyProtection {
     }
   }
 
-  isHeadless(navigator) {
+  isHeadless() {
     if (navigator) return navigator.webdriver;
   }
 
