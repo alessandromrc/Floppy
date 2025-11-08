@@ -42,6 +42,11 @@ class FloppyProtection {
     if (navigator) return navigator.webdriver;
   }
 
+  hasNoPlugins() {
+    const pluginCount = navigator?.plugins?.length ?? 0;
+    return pluginCount === 0;
+  }
+
   sha256(str) {
     function rightRotate(value, amount) {
       return (value >>> amount) | (value << (32 - amount));
@@ -335,11 +340,13 @@ class FloppyProtection {
     }
 
     if (this.isHeadless()) this.headlessBrowserDetected = true;
+    if (this.hasNoPlugins()) this.noPluginsDetected = true;
 
     setTimeout(async () => {
       try {
         if (this.badUAdetected) throw "Bad User Agent";
         if (this.headlessBrowserDetected) throw "Headless Browser";
+        if (this.noPluginsDetected) throw "No Plugins Detected";
 
         const startTime = performance.now();
         const result = await this.mine(
