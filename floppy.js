@@ -38,6 +38,10 @@ class FloppyProtection {
     }
   }
 
+  isHeadless(navigator) {
+    if (navigator) return navigator.webdriver;
+  }
+
   sha256(str) {
     function rightRotate(value, amount) {
       return (value >>> amount) | (value << (32 - amount));
@@ -330,9 +334,12 @@ class FloppyProtection {
       }
     }
 
+    if (this.isHeadless()) this.headlessBrowserDetected = true;
+
     setTimeout(async () => {
       try {
         if (this.badUAdetected) throw "Bad User Agent";
+        if (this.headlessBrowserDetected) throw "Headless Browser";
 
         const startTime = performance.now();
         const result = await this.mine(
@@ -356,8 +363,8 @@ class FloppyProtection {
       } catch (error) {
         console.error("[Floppy] Verification failed:", error);
 
-        if (this.badUAdetected) {
-          statusEl.textContent = "❌ Verification failed - Bad User Agent";
+        if (this.badUAdetected || this.headlessBrowserDetected) {
+          statusEl.textContent = "❌ Verification failed - " + error;
         } else {
           statusEl.textContent = "❌ Verification failed - Access denied";
         }
