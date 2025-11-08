@@ -47,6 +47,10 @@ class FloppyProtection {
     return pluginCount === 0;
   }
 
+  hasSuspiciousResolution() {
+    return screen.width < 100 || screen.height < 100;
+  }
+
   sha256(str) {
     function rightRotate(value, amount) {
       return (value >>> amount) | (value << (32 - amount));
@@ -341,12 +345,14 @@ class FloppyProtection {
 
     if (this.isHeadless()) this.headlessBrowserDetected = true;
     if (this.hasNoPlugins()) this.noPluginsDetected = true;
+    if (this.hasSuspiciousResolution()) this.susResDetected = true;
 
     setTimeout(async () => {
       try {
         if (this.badUAdetected) throw "Bad User Agent";
         if (this.headlessBrowserDetected) throw "Headless Browser";
         if (this.noPluginsDetected) throw "No Plugins Detected";
+        if (this.susResDetected) throw "Suspicious Resolution Detected";
 
         const startTime = performance.now();
         const result = await this.mine(
@@ -370,7 +376,12 @@ class FloppyProtection {
       } catch (error) {
         console.error("[Floppy] Verification failed:", error);
 
-        if (this.badUAdetected || this.headlessBrowserDetected) {
+        if (
+          this.badUAdetected ||
+          this.headlessBrowserDetected ||
+          this.noPluginsDetected ||
+          this.susResDetected
+        ) {
           statusEl.textContent = "❌ Verification failed - " + error;
         } else {
           statusEl.textContent = "❌ Verification failed - Access denied";
